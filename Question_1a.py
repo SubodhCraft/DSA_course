@@ -1,23 +1,25 @@
-import time
+def get_max_coverage(locations) :
+    n = len(locations)
+    if n <= 2: return n # 2 points always form a Line
 
-# Ask user for input
-n = int(input("Enter a positive integer: "))
+    overall_max = 0
+    for i in range(n):
+        slopes = {}
+        for j in range(i + 1, n):
+            dx = locations[j][0] - locations[i][0]
+            dy = locations[j][1] - locations[i][1]
+            
+            # Handling the vertical Line case
+            slope = (dy / dx) if dx != 0 else "vertical"
+            
+            slopes [slope] = slopes.get (slope, 0) + 1
+        # Max points for this anchor = max slope count + the anchor point itself
+        if slopes:
+            current_max = max (slopes. values()) + 1
+            overall_max = max (overall_max, current_max)
+    return overall_max
 
-# Start timer
-start_time = time.time()
-
-# Initialize sum
-sum_n = 0
-
-# Calculate sum using for loop
-for i in range(1, n + 1):
-    sum_n += i
-
-# End timer
-end_time = time.time()
-
-# Display the sum
-print("The sum of first", n, "natural numbers is:", sum_n)
-
-# Display time taken
-print("Time taken to execute:", end_time - start_time, "seconds")
+# Input from Assignment Example 2
+customer_locations = [[1,1], [3,2], [5,3], [4,1], [2,3], [1,4]]
+result = get_max_coverage(customer_locations)
+print(f"Maximum households covered: {result}")
